@@ -1,0 +1,128 @@
+body {
+    background-color: rgb(29, 42, 68);
+}
+
+#game {
+    border: 3px solid blueviolet;
+    width: fit-content;
+    display: grid;
+}
+
+#background {
+    grid-area: 1/1;
+    display: grid;
+    grid-template-columns: repeat(var(--GRID_WIDTH), max-content);
+}
+
+#background .tile {
+    width: var(--TILE_SIZE);
+    aspect-ratio: 1/1;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    image-rendering: pixelated;
+}
+
+.highlight {
+    outline: 2px dashed black;
+    translate: 0 0;
+}
+
+.tile.grass {
+    background-image: url('images/tiles/grass.png');
+}
+
+.tile.road {
+    background-image: url('images/tiles/road.png');
+}
+
+.tile.floor {
+    background-image: url('images/tiles/floor2.png');
+}
+
+.tile.water {
+    background-image: url('images/tiles/water.png');
+}
+
+.tile.wall2 {
+    background-image: url('images/tiles/wall2.png');
+}
+
+.tile.sand {
+    background-image: url('images/tiles/sand.png');
+}
+
+#items {
+    grid-area: 1/1;
+}
+
+#chars {
+    grid-area: 1/1;
+}
+
+#player {
+    width: 32px;
+    aspect-ratio: 16 / 20;
+    background-image: url('images/character/player.png');
+    background-size: 400% 400%;
+    image-rendering: pixelated;
+    background-position: -100% 0%;
+}
+
+#player.animate {
+    animation-duration: 1s;
+    animation-timing-function: steps(4);
+    animation-iteration-count: infinite;
+}
+
+#player.down {
+    background-position: 0% 0%;
+    animation-name: down;
+}
+
+#player.up {
+    background-position: 0% -100%;
+    animation-name: up;
+}
+
+#player.right {
+    background-position: 0% -300%;
+    animation-name: right;
+}
+
+#player.left {
+    background-position: 0% -200%;
+    animation-name: left;
+}
+
+
+@keyframes down {
+    from {
+        background-position: 0% 0%;
+    } to {
+        background-position: -400% 0%;
+    }
+}
+
+@keyframes up {
+    from {
+        background-position: 0% -100%;
+    } to {
+        background-position: -400% -100%;
+    }
+}
+
+@keyframes right {
+    from {
+        background-position: 0% -300%;
+    } to {
+        background-position: -400% -300%;
+    }
+}
+
+@keyframes left {
+    from {
+        background-position: 0% -200%;
+    } to {
+        background-position: -400% -200%;
+    }
+}
