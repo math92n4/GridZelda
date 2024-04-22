@@ -35,7 +35,7 @@ body {
 .show-reg-point::before {
     content: "";
     position: absolute;
-    background-color: cyan;
+    background-color: black;
 
     width: 3px;
     height: 3px;

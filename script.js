@@ -128,8 +128,8 @@ function setRegPointDbug() {
   if(!shownPlayer.classList.contains('show-reg-pont')) {
     shownPlayer.classList.add('show-reg-point')
   }
-  shownPlayer.style.setProperty("--regX", shownPlayer.regX + "px");
-  shownPlayer.style.setProperty("--regY", shownPlayer.regY + "px");
+  shownPlayer.style.setProperty("--regX", player.regX + "px");
+  shownPlayer.style.setProperty("--regY", player.regY + "px");
 }
 
 function hitboxDbug() {
@@ -274,7 +274,7 @@ function getTileCoordUnder(player) {
 const player = {
     x: 0,
     y: 0,
-    regX: 10,
+    regX: 12,
     regY: 23,
     hitbox: {
       x: 9,
