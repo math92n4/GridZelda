@@ -1,5 +1,3 @@
-console.log('he')
-
 document.addEventListener('DOMContentLoaded', start)
 
 let lastTimestamp = 0;
@@ -18,18 +16,20 @@ function tick(timestamp) {
     movePlayer(deltaTime);
     displayPlayerAtPosition();
     displayPlayerAnimation();
+    debug();
 }
 
 function createGame() {
   const background = document.getElementById('background');
   background.style.setProperty("--GRID_WIDTH", GRID_WIDTH);
-  console.log(background)
   
   for(let i = 0; i < GRID_HEIGHT; i++) {
     for(let j = 0; j < GRID_WIDTH; j++) {
       const tile = document.createElement('div')
       tile.style.setProperty("--TILE_SIZE", tileSize + 'px')
       tile.classList.add('tile')
+      tile.setAttribute('data-row', i)
+      tile.setAttribute('data-col', j)
 
       const tileNumber = getTileAtCoord(i, j)
       const className = getClassForTileType(tileNumber)
@@ -81,17 +81,71 @@ function displayPlayerAnimation() {
     }
 }
 
-function showDebugging() {
 
+// DEBUG
+
+function debug() {
+  highlightDbug();
+  setRectDbug();
+  setRegPointDbug();
+  hitboxDbug();
 }
 
-function lightTile(row, col) {
+let prevTile = { row: 0, col: 0}
 
+function highlightDbug() {
+  const coord = coordFromPos(player.x, player.y);
+  console.log(coord, 'current tile');
+  console.log(prevTile, 'prev tile')
+  if(prevTile.row != coord.row || prevTile.col != coord.col) {
+    removeTileLight(prevTile.row, prevTile.col)
+    setTileLight(coord.row, coord.col);
+  }
+  prevTile = coord;
 }
 
-function unLightTile(row, col) {
+function removeTileLight(row, col) {
+  const tiles = document.querySelectorAll('.tile');
+  const tile = tiles[row * GRID_WIDTH + col]
+  tile.classList.remove('highlight')
+}
 
-} 
+function setTileLight(row, col) {
+  const tiles = document.querySelectorAll('.tile');
+  const currentTile = tiles[row * GRID_WIDTH + col]
+  currentTile.classList.add('highlight')
+}
+
+function setRectDbug() {
+  const shownPlayer = document.getElementById('player')
+  if(!shownPlayer.classList.contains('show-rect')) {
+    shownPlayer.classList.add('show-rect')
+  }
+}
+
+function setRegPointDbug() {
+  const shownPlayer = document.getElementById('player')
+  if(!shownPlayer.classList.contains('show-reg-pont')) {
+    shownPlayer.classList.add('show-reg-point')
+  }
+  shownPlayer.style.setProperty("--regX", shownPlayer.regX + "px");
+  shownPlayer.style.setProperty("--regY", shownPlayer.regY + "px");
+}
+
+function hitboxDbug() {
+  const shownPlayer = document.getElementById("player");
+  if (!shownPlayer.classList.contains("show-hitbox")) {
+    shownPlayer.classList.add("show-hitbox");
+  }
+
+  shownPlayer.style.setProperty("--hitboxX", player.hitbox.x + "px");
+  shownPlayer.style.setProperty("--hitboxY", player.hitbox.y + "px");
+
+  shownPlayer.style.setProperty("--hitboxW", player.hitbox.w + "px");
+  shownPlayer.style.setProperty("--hitboxH", player.hitbox.h + "px");
+}
+
+// KEYS
 
 function keyUp(event) {
     if(event.key === 'w') {
@@ -116,6 +170,15 @@ function keyUp(event) {
       controls.right = true;
     }
   }
+
+// MOVEMENT
+
+const controls = {
+  left: false,
+  right: false,
+  up: false,
+  down: false
+}
 
 function movePlayer(deltaTime) {
     player.moving = false;
@@ -153,15 +216,13 @@ function movePlayer(deltaTime) {
 
 function canMoveTo(pos) {
   const coord = coordFromPos(pos.x, pos.y)
-  console.log(coord)
+  setTileLight(coord.row, coord.col)
 
-    // FIX THIS
-  if(coord.row < 0 || coord.col < 0 || coord.row > 8 || coord.col > 14) {
+  if(coord.row < 0 || coord.col < 0 || coord.row >= GRID_HEIGHT || coord.col >= GRID_WIDTH) {
     return false;
   }
   
   const tileValue = getTileAtCoord(coord.row, coord.col)
-  console.log(tileValue);
 
   if(tileValue === 3 || tileValue === 5) {
     return false;
@@ -169,12 +230,8 @@ function canMoveTo(pos) {
     return true;
 }
 
-const controls = {
-    left: false,
-    right: false,
-    up: false,
-    down: false
-}
+
+// MODEL
 
 const tiles = [
   [1,1,0,0,0,0,5,2,2,2,2,5,0,0,0,0],
@@ -217,10 +274,21 @@ function getTileCoordUnder(player) {
 const player = {
     x: 0,
     y: 0,
-    regX: 8,
-    regY: 12,
-    speed: 100,
+    regX: 10,
+    regY: 23,
+    hitbox: {
+      x: 9,
+      y: 11,
+      w: 10,
+      h: 18
+    },
+    speed: 200,
     moving: false,
     direction: undefined
+}
+
+const food = {
+  row: 1,
+  col: 1
 }
 

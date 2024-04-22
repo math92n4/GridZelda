@@ -23,8 +23,34 @@ body {
 }
 
 .highlight {
-    outline: 2px dashed black;
+    outline: 2px dashed yellow;
     translate: 0 0;
+}
+
+.show-rect {
+    outline: 2px solid red;
+
+}
+
+.show-reg-point::before {
+    content: "";
+    position: absolute;
+    background-color: cyan;
+
+    width: 3px;
+    height: 3px;
+
+    translate: var(--regX) var(--regY);
+}
+
+.show-hitbox::after {
+    content: "";
+    position: absolute;
+    width: var(--hitboxW);
+    height: var(--hitboxH);
+    translate: var(--hitboxX) var(--hitboxY);
+
+    outline: 2px solid hotpink;
 }
 
 .tile.grass {
@@ -60,7 +86,7 @@ body {
 }
 
 #player {
-    width: 32px;
+    width: 28px;
     aspect-ratio: 16 / 20;
     background-image: url('images/character/player.png');
     background-size: 400% 400%;
