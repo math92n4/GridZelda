@@ -272,8 +272,8 @@ function getTileCoordUnder(player) {
 }
 
 const player = {
-    x: 0,
-    y: 0,
+    x: 14,
+    y: 14,
     regX: 12,
     regY: 23,
     hitbox: {
